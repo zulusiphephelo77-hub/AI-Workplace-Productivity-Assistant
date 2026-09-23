@@ -1,5 +1,7 @@
 # AI Workplace Productivity Assistant
 
+**Live Demo:** https://intellex-work.lovable.app
+
 ## Project Overview
 An AI-powered productivity dashboard that helps professionals automate common workplace tasks — drafting emails, summarizing meetings, planning schedules, and researching topics — all from a single integrated application. Built for the CAPACITI AI Skill Accelerator Programme.
 
@@ -24,8 +26,8 @@ Professionals spend significant time on repetitive tasks such as drafting emails
 - Known limitations documented in the project write-up (e.g. risk of tone misjudgment in email generation, incomplete summaries from ambiguous meeting notes)
 
 ## Setup Instructions
-1. Clone this repository: `git clone <repo-url>`
-2. Open the project in Lovable AI (or the deployed link, if applicable)
+1. Visit the live deployed app: https://intellex-work.lovable.app — no installation needed
+2. Alternatively, clone this repository: `git clone <repo-url>` and open the project in Lovable AI
 3. No API keys required from the user — AI calls are handled within the app
 4. Navigate via the sidebar to access each feature
 
