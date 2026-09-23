@@ -1,6 +1,6 @@
 # AI Prompts — Sample Prompts & Tested Outputs
 
-Each prompt below was drafted and tested in Gemini Pro before being integrated into the Lovable application. One representative test example is included per feature to demonstrate prompt reliability.
+Each prompt below was drafted and tested in Gemini Pro, then verified working inside the live Aurora Workplace AI dashboard. One representative tested example is included per feature.
 
 ---
 
@@ -23,14 +23,14 @@ Requirements:
 - Do not invent facts, dates, or names not provided in the context
 ```
 
-**Tested example — escalation email (team member to engineering manager, formal tone):**
-> Subject: Escalation: Persistent ingestion sync failure affecting Apex Retail Q3 metrics
+**Tested output — client status update (warm, concise, confident tone):**
+> Subject: Q3 dashboard update and next check-in
 >
-> Dear Marcus, I am escalating an ongoing data pipeline failure impacting our key enterprise client, Apex Retail. During the manual backfill attempt intended to resolve their missing fortnightly transactions, the ingestion service encountered persistent API rate-limiting errors from the upstream provider... I have compiled the server logs, job identifiers, and rate-limit headers in Jira ticket DP-4421. Could you review the ticket and allocate senior engineering support?
+> Hi Elena, We've identified the cause of the Q3 analytics dashboard discrepancy: the scheduled batch sync missed late-clearing webhook events, resulting in a 15% underreporting gap. Our team is staging a backfill and will validate the updated totals... Could you confirm your presentation deadline and your preferred time for our next check-in? That will help us align the update with your preparation schedule.
 >
-> Sincerely, Sipho Dlamini
+> Best, [Your name]
 
-The prompt correctly held tone and structure consistently across a 3-email escalation chain (client → team member → manager) without inventing unstated facts.
+**Why it's a good result:** rather than assuming an unstated deadline, the model asked a clarifying question back to the client — direct evidence of the "do not invent facts" instruction working correctly.
 
 ---
 
@@ -51,13 +51,16 @@ Output in this exact structure:
 Only include information present in the notes. If a section has nothing relevant, write "None noted."
 ```
 
-**Tested example — output excerpt:**
+**Tested output — excerpt:**
 > **Action Items**
-> - Draft and send an interim status update to Elena Vance outlining the reconciliation timeline – Sipho – Today by 17:00
-> - Review and approve the hotfix pull request – Marcus – Today by 19:00
-> - Contact upstream API provider support to request a rate-limit increase – Marcus – Deadline not specified
+> - Rewrite the batch sync script with exponential backoff and 250-record batches — Priya — exact deadline not specified
+> - Review and approve Priya's deployment pull request — Marcus — before 19:00 today
+> - Notify Elena Vance of the timeline — Sipho — by 17:00 today
+>
+> **Risks**
+> - Client commitment risk: Sipho's 17:00 update precedes the backfill and validation — distinguish the planned reconciliation timeline from confirmed completion.
 
-The prompt correctly separated decisions from action items and flagged the one item with no stated deadline rather than inventing one.
+**Why it's a good result:** the model went beyond the spec by adding a Risks section that flagged a genuine sequencing problem (a client commitment being made before the underlying fix is confirmed) — and it explicitly noted that the meeting date and time zone weren't provided rather than guessing.
 
 ---
 
@@ -78,11 +81,14 @@ Output:
 If urgency isn't stated, infer it from deadlines only — flag any assumption you make.
 ```
 
-**Tested example — prioritization output:**
-> **Task: Audit Ingestion Sync & Trace Missing Webhook Events (High Priority)**
-> Reasoning: Diagnosing why the scheduled batch failed is the critical bottleneck preventing accurate data flow and blocking any resolution for the client.
+**Tested output — excerpt (Day 1 recovery schedule):**
+> | Priority / window | Task | Owner | Milestone |
+> |---|---|---|---|
+> | P0 · Hours 0–0.5 | Contain and scope: assign owners, identify affected reports, preserve logs | Incident lead + reporting lead | M1: Recovery scope established |
+> | P0 · Hours 0.5–2 | Audit ingestion: inspect rate-limit responses, estimate backfill duration | Ingestion owner + data analyst | M2: Affected ranges documented |
+> | P0 · Hours 2–3 | Prepare and test recovery; define rollback steps | Ingestion owner | M3: Backfill go/no-go passed |
 
-The model correctly flagged its own assumption about the workday window (08:30–16:30) rather than presenting it as given.
+**Why it's a good result:** it explicitly flagged its own planning assumption ("the 8-hour window is the immediate recovery target... owners below are proposed roles, not confirmed assignments") and built in decision gates (e.g. "if estimated recovery exceeds the available window, escalate immediately") rather than a flat static list.
 
 ---
 
@@ -103,7 +109,9 @@ Output:
 Do not present speculation as fact. Distinguish clearly between what the source states and any inference you make.
 ```
 
-**Tested example — caveat output:**
-> This summary focuses strictly on standard API integration engineering and resilience patterns derived from the preceding technical incident. Specific optimal values—such as exact chunk sizes, backoff multipliers, and concurrency limits—depend directly on the upstream vendor's published API agreements, which must be verified against their documentation.
+**Tested output — excerpt:**
+> The Apex Retail Q3 discrepancy is the motivating example, but its cause, scope, and financial impact are not established in the supplied information. Any connection to API throttling remains a hypothesis to verify.
+>
+> **Suggested research angle — Completeness assurance:** compare source-to-target counts and totals, time-window reconciliation, missing-partition checks, and freshness thresholds.
 
-The prompt reliably separated stated facts from its own recommendation and explicitly flagged where further verification was needed.
+**Why it's a good result:** rather than treating the incident as a confirmed root cause, the model correctly labeled it a hypothesis needing verification, and produced a structured research plan (evaluation criteria, verification questions, decision path) instead of a generic summary — a strong demonstration of separating stated fact from inference.
